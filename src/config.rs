@@ -8,6 +8,7 @@
 pub struct Config {
     pub mode: String,
     pub input_file: String,
+    pub output_file: String,
     pub password: String,
 }
 
@@ -49,6 +50,9 @@ impl Config {
             }
         }
 
-        return Ok(Config {mode, input_file, password});
+        let mut output_file: String = ".".to_owned();
+        output_file.push_str(input_file.as_str());
+
+        return Ok(Config {mode, input_file, output_file, password});
     }
 }

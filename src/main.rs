@@ -6,6 +6,7 @@
 */
 
 mod config;
+mod crypto;
 use std::env;
 use std::process;
 
@@ -15,5 +16,14 @@ fn main() {
             print!("Problem with parsing the arguments: {}", err);
             process::exit(1);
         });
-    println!("{}, {}, {}", configs.mode, configs.input_file, configs.password);
+    
+    if configs.mode == "encrypt" {
+        println!("Started encrypting, this will take a few seconds.");
+        crypto::encrypt_file(&configs.input_file.clone(), &configs.output_file.clone(), &configs.password.clone());
+        println!("Successfully encrypted the file {}!", configs.output_file)
+    } else if configs.mode == "decrypt" {
+        println!("Started decrypting, this will take a few seconds.");
+        let content = crypto::decrypt_file(&configs.output_file.clone(), &configs.password.clone());
+        println!("Contents of the encrypted file: \n{}", content)  
+    }
 }
